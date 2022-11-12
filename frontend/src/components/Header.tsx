@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "../images/avatar.png";
 import logo from "../images/logo.svg";
 import { FiShoppingCart } from "react-icons/fi";
@@ -6,33 +6,25 @@ import { motion } from "framer-motion";
 import { Link, useLinkClickHandler } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../firebase.config.js";
+import { useDispatch } from "react-redux";
+import { actionType } from "../state/actionType";
+import { useTypedSelector } from "../hooks/use-typed-selector";
 
 const Header: React.FC = () => {
+  const userInfo = useTypedSelector((state) => state.user);
+  const [user, setUser] = useState<any | null>(userInfo);
+  console.log(user);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
-
+  const dispatch = useDispatch();
   const loginHandle = async () => {
     const {
       user: { refreshToken, providerData },
     } = await signInWithPopup(auth, provider);
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     // This gives you a Google Access Token. You can use it to access the Google API.
-    //     const credential = GoogleAuthProvider.credentialFromResult(result);
-    //     const token = credential.accessToken;
-    //     // The signed-in user info.
-    //     const user = result.user;
-    //     // ...
-    //   }).catch((error) => {
-    //     // Handle Errors here.
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // The email of the user's account used.
-    //     const email = error.customData.email;
-    //     // The AuthCredential type that was used.
-    //     const credential = GoogleAuthProvider.credentialFromError(error);
-    //     // ...
-    //   });
+    console.log(providerData);
+    dispatch({ type: actionType.SET_USER, payload: { user: providerData[0] } });
+    localStorage.setItem("user", JSON.stringify(providerData[0]));
+    setUser(providerData[0]);
   };
 
   return (
@@ -64,8 +56,8 @@ const Header: React.FC = () => {
           <div>
             <motion.img
               whileTap={{ scale: 0.8 }}
-              src={Avatar}
-              className="w-10 min-w-[40px] h-10 min-h-[40px]  drop-shadow-xl cursor-pointer "
+              src={user ? user.user.photoURL : Avatar}
+              className="w-10 min-w-[40px] h-10 min-h-[40px]  drop-shadow-xl cursor-pointer rounded-full "
               alt="userprofile"
               onClick={() => loginHandle()}
             />

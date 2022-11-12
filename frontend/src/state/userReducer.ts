@@ -1,16 +1,18 @@
 import { defaultMaxListeners } from "events";
+import produce from "immer";
 import { Action } from "./actions";
 import { actionType } from "./actionType";
+import { initialState, StateType } from "./initialState";
 
-interface State {
-  user: {} | null;
-}
+// interface State {
+//   user: {} | null;
+// }
 
-const initialState: State = {
-  user: null,
-};
+// const initialState: State = {
+//   user: null,
+// };
 
-const reducer = (state: State = initialState, action: Action) => {
+const reducer = produce((state: StateType = initialState, action: Action) => {
   console.log(action);
 
   switch (action.type) {
@@ -23,6 +25,6 @@ const reducer = (state: State = initialState, action: Action) => {
     default:
       return state;
   }
-};
+}, initialState);
 
 export default reducer;
