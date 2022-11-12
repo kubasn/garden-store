@@ -9,34 +9,49 @@ import { app } from "../firebase.config.js";
 import { useDispatch } from "react-redux";
 import { actionType } from "../state/actionType";
 import { useTypedSelector } from "../hooks/use-typed-selector";
+import { BiLogIn } from "react-icons/bi";
+import { CgAdd } from "react-icons/cg";
 
 const Header: React.FC = () => {
   const userInfo = useTypedSelector((state) => state.user);
   const [user, setUser] = useState<any | null>(userInfo);
-  console.log(user);
+  const [showMenu, setShowMenu] = useState(false);
+
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const dispatch = useDispatch();
+
   const loginHandle = async () => {
-    const {
-      user: { refreshToken, providerData },
-    } = await signInWithPopup(auth, provider);
-    console.log(providerData);
-    dispatch({ type: actionType.SET_USER, payload: { user: providerData[0] } });
-    localStorage.setItem("user", JSON.stringify(providerData[0]));
-    setUser(providerData[0]);
+    if (!user) {
+      const {
+        user: { refreshToken, providerData },
+      } = await signInWithPopup(auth, provider);
+      console.log(providerData);
+      dispatch({
+        type: actionType.SET_USER,
+        payload: { user: providerData[0] },
+      });
+      localStorage.setItem("user", JSON.stringify(providerData[0]));
+      setUser(providerData[0]);
+    } else {
+      setShowMenu(!showMenu);
+    }
   };
 
   return (
-    <header className="fixed z-50 w-screen  p-8 px-16">
+    <header className="fixed z-50 w-screen p-3 px-4 md:p-8 md:px-16">
       {/* dekstop and tablet */}
       <div className="hidden md:flex w-full h-full  justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} className="w-24" alt="logo" />
-          {/* <p className="text-gray-700 text-xl font-bond">Gardena</p> */}
         </Link>
         <div className="flex items-center gap-8">
-          <ul className="flex items-center   text-gray-500 gap-8  font-semibold ">
+          <motion.ul
+            initial={{ opacity: 0, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 200 }}
+            className="flex items-center   text-gray-500 gap-8  font-semibold "
+          >
             <li className="text-lg cursor-pointer  hover:text-gray-900 ease-in-out transition-all ">
               Home
             </li>
@@ -46,7 +61,7 @@ const Header: React.FC = () => {
             <li className="text-lg cursor-pointer hover:text-gray-900 ease-in-out transition-all">
               About us
             </li>
-          </ul>
+          </motion.ul>
           <div className="relative flex items-center">
             <FiShoppingCart className="text-gray-500 text-xl  cursor-pointer" />
             <div className="w-4 h-4 absolute top-[-10px] left-5 text-center rounded-full bg-red-800">
@@ -61,11 +76,62 @@ const Header: React.FC = () => {
               alt="userprofile"
               onClick={() => loginHandle()}
             />
+            {showMenu && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                className="w-40 bg-white shadow-xl rounded-xl absolute flex flex-col  right-16 top-28 text-left text-gray-700 "
+              >
+                {user && user.user.email == "sosinkuba@gmail.com" && (
+                  <Link to="createItem">
+                    <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
+                      <CgAdd className="relative top-1" /> New item
+                    </p>
+                  </Link>
+                )}
+                <p className="flex cursor-pointer transition-all ease-in-out hover:rounded-b-xl hover:bg-gray-300 w-full px-2">
+                  <BiLogIn className="relative top-1 right-[2px]" /> Logout
+                </p>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
       {/* mobile */}
-      <div className="flex md:hidden w-full h-full"></div>
+      <div className="flex md:hidden w-full h-full">
+        <Link to="/" className="flex items-center gap-2">
+          <img src={logo} className="w-24" alt="logo" />
+        </Link>
+        <div>
+          <motion.img
+            whileTap={{ scale: 0.8 }}
+            src={user ? user.user.photoURL : Avatar}
+            className="w-10 min-w-[40px] h-10 min-h-[40px]  drop-shadow-xl cursor-pointer rounded-full "
+            alt="userprofile"
+            onClick={() => loginHandle()}
+          />
+          {showMenu && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              className="w-40 bg-white shadow-xl rounded-xl absolute flex flex-col  right-16 top-28 text-left text-gray-700 "
+            >
+              {user && user.user.email == "sosinkuba@gmail.com" && (
+                <Link to="createItem">
+                  <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
+                    <CgAdd className="relative top-1" /> New item
+                  </p>
+                </Link>
+              )}
+              <p className="flex cursor-pointer transition-all ease-in-out hover:rounded-b-xl hover:bg-gray-300 w-full px-2">
+                <BiLogIn className="relative top-1 right-[2px]" /> Logout
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </div>
     </header>
   );
 };

@@ -12,7 +12,7 @@ function App() {
   );
 
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
       <div className=" w-screen h-auto flex flex-col bg-gray-100">
         <Header />
         <main className="mt-32 p-8 w-full">{Components}</main>
