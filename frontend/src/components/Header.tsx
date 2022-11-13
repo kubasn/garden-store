@@ -13,13 +13,25 @@ import { BiLogIn } from "react-icons/bi";
 import { CgAdd } from "react-icons/cg";
 
 const Header: React.FC = () => {
-  const userInfo = useTypedSelector((state) => state.user);
-  const [user, setUser] = useState<any | null>(userInfo);
+  const userInfo: any = useTypedSelector((state) => state.user);
+  //to fix !!!
+  const [user, setUser] = useState<any | null>(userInfo.user);
   const [showMenu, setShowMenu] = useState(false);
 
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const dispatch = useDispatch();
+  console.log(user);
+  //to fix !!!
+  const logout = () => {
+    setShowMenu(false);
+    localStorage.clear();
+    dispatch({
+      type: actionType.SET_USER,
+      payload: { user: null },
+    });
+    setUser(null);
+  };
 
   const loginHandle = async () => {
     if (!user) {
@@ -71,7 +83,7 @@ const Header: React.FC = () => {
           <div>
             <motion.img
               whileTap={{ scale: 0.8 }}
-              src={user ? user.user.photoURL : Avatar}
+              src={user ? user.photoURL : Avatar}
               className="w-10 min-w-[40px] h-10 min-h-[40px]  drop-shadow-xl cursor-pointer rounded-full "
               alt="userprofile"
               onClick={() => loginHandle()}
@@ -83,14 +95,18 @@ const Header: React.FC = () => {
                 exit={{ opacity: 0, scale: 0.6 }}
                 className="w-40 bg-white shadow-xl rounded-xl absolute flex flex-col  right-16 top-28 text-left text-gray-700 "
               >
-                {user && user.user.email == "sosinkuba@gmail.com" && (
+                {user && user.email == "sosinkuba@gmail.com" && (
                   <Link to="createItem">
                     <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
                       <CgAdd className="relative top-1" /> New item
                     </p>
                   </Link>
                 )}
-                <p className="flex cursor-pointer transition-all ease-in-out hover:rounded-b-xl hover:bg-gray-300 w-full px-2">
+
+                <p
+                  onClick={logout}
+                  className="flex cursor-pointer transition-all ease-in-out hover:rounded-b-xl hover:bg-gray-300 w-full px-2"
+                >
                   <BiLogIn className="relative top-1 right-[2px]" /> Logout
                 </p>
               </motion.div>
@@ -99,15 +115,23 @@ const Header: React.FC = () => {
         </div>
       </div>
       {/* mobile */}
-      <div className="flex md:hidden w-full h-full">
+      <div className="flex items-center justify-between md:hidden w-full h-full">
+        <div className="relative flex items-center">
+          <FiShoppingCart className="text-gray-500 text-[40px]  cursor-pointer" />
+          <div className="w-6 h-6 absolute top-[-10px] left-10 text-center flex items-center justify-center rounded-full bg-red-800">
+            <p className="text-xs text-white font-semibold">2</p>
+          </div>
+        </div>
+
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} className="w-24" alt="logo" />
         </Link>
+
         <div>
           <motion.img
             whileTap={{ scale: 0.8 }}
-            src={user ? user.user.photoURL : Avatar}
-            className="w-10 min-w-[40px] h-10 min-h-[40px]  drop-shadow-xl cursor-pointer rounded-full "
+            src={user ? user.photoURL : Avatar}
+            className="w-12 min-w-[40px] h-12 min-h-[40px]  drop-shadow-xl cursor-pointer rounded-full "
             alt="userprofile"
             onClick={() => loginHandle()}
           />
@@ -116,16 +140,32 @@ const Header: React.FC = () => {
               initial={{ opacity: 0, scale: 0.6 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
-              className="w-40 bg-white shadow-xl rounded-xl absolute flex flex-col  right-16 top-28 text-left text-gray-700 "
+              className="w-40 bg-white shadow-xl rounded-xl absolute flex flex-col  right-4 top-24 text-left text-gray-700 "
             >
-              {user && user.user.email == "sosinkuba@gmail.com" && (
+              {user && user.email == "sosinkuba@gmail.com" && (
                 <Link to="createItem">
-                  <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
+                  <p className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg  hover:rounded-t-xl w-full px-2 py-2">
                     <CgAdd className="relative top-1" /> New item
                   </p>
                 </Link>
               )}
-              <p className="flex cursor-pointer transition-all ease-in-out hover:rounded-b-xl hover:bg-gray-300 w-full px-2">
+
+              <ul className="flex flex-col items-center  text-gray-500   font-semibold  ">
+                <li className="text-lg cursor-pointer  hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2">
+                  Home
+                </li>
+                <li className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2">
+                  Menu
+                </li>
+                <li className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2">
+                  About us
+                </li>
+              </ul>
+
+              <p
+                onClick={logout}
+                className="flex justify-center cursor-pointer transition-all ease-in-out hover:rounded-b-xl bg-gray-200 hover:bg-gray-400 w-full  text-gray-500 font-semibold text-lg px-2 py-2"
+              >
                 <BiLogIn className="relative top-1 right-[2px]" /> Logout
               </p>
             </motion.div>
