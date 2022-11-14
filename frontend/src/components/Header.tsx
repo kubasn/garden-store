@@ -97,7 +97,10 @@ const Header: React.FC = () => {
               >
                 {user && user.email == "sosinkuba@gmail.com" && (
                   <Link to="createItem">
-                    <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
+                    <p
+                      className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2"
+                      onClick={() => setShowMenu(false)}
+                    >
                       <CgAdd className="relative top-1" /> New item
                     </p>
                   </Link>
@@ -144,27 +147,39 @@ const Header: React.FC = () => {
             >
               {user && user.email == "sosinkuba@gmail.com" && (
                 <Link to="createItem">
-                  <p className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg  hover:rounded-t-xl w-full px-2 py-2">
+                  <p
+                    className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg  hover:rounded-t-xl w-full px-2 py-2"
+                    onClick={() => setShowMenu(false)}
+                  >
                     <CgAdd className="relative top-1" /> New item
                   </p>
                 </Link>
               )}
 
               <ul className="flex flex-col items-center  text-gray-500   font-semibold  ">
-                <li className="text-lg cursor-pointer  hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2">
+                <li
+                  className="text-lg cursor-pointer  hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
+                  onClick={() => setShowMenu(false)}
+                >
                   Home
                 </li>
-                <li className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2">
+                <li
+                  className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
+                  onClick={() => setShowMenu(false)}
+                >
                   Menu
                 </li>
-                <li className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2">
+                <li
+                  className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
+                  onClick={() => setShowMenu(false)}
+                >
                   About us
                 </li>
               </ul>
 
               <p
                 onClick={logout}
-                className="flex justify-center cursor-pointer transition-all ease-in-out hover:rounded-b-xl bg-gray-200 hover:bg-gray-400 w-full  text-gray-500 font-semibold text-lg px-2 py-2"
+                className="flex justify-center cursor-pointer transition-all ease-in-out hover:rounded-b-xl bg-gray-200 hover:bg-gray-400 w-full  text-gray-500 font-semibold text-lg px-2 py-2 "
               >
                 <BiLogIn className="relative top-1 right-[2px]" /> Logout
               </p>
