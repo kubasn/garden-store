@@ -6,8 +6,14 @@ import { MdDescription } from "react-icons/md";
 import { motion } from "framer-motion";
 import { categories } from "../backend";
 import Loader from "./UI/Loader";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "../firebase.config";
+import { saveItem } from "./utils/functionsFirebase";
 
 interface isItem {
   title: string;
@@ -30,9 +36,10 @@ const CreateItem = () => {
     category: "",
     image: "",
   });
+  console.log(item);
 
   const changeFunction = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
     type: string
   ) => {
     setItem({ ...item, [type]: e.target.value });
@@ -80,8 +87,80 @@ const CreateItem = () => {
       }
     );
   };
-  const deleteImage = () => {};
-  const saveDetails = () => {};
+  const deleteImage = () => {
+    setLoading(true);
+    const deleteRef = ref(storage, item.image);
+    deleteObject(deleteRef).then(() => {
+      item.image = "";
+      setLoading(false);
+      setFields(true);
+      setMsg("Image deleted successfully");
+      setAlert("success");
+      setTimeout(() => {
+        setFields(false);
+      }, 400);
+    });
+  };
+  const saveDetails = () => {
+    setLoading(true);
+    try {
+      if (
+        !item.title ||
+        !item.category ||
+        !item.description ||
+        !item.image ||
+        !item.price
+      ) {
+        console.log(item);
+        setFields(true);
+        setMsg("Fields cannot be empty");
+        setAlert("danger");
+
+        setLoading(false);
+        setTimeout(() => {
+          setFields(false);
+          setLoading(false);
+        }, 4000);
+      } else {
+        const data = {
+          id: Math.floor(Math.random() * 100000),
+          title: item.title,
+          price: item.price,
+          description: item.description,
+          category: item.category,
+          imageUrl: item.image,
+        };
+        saveItem(data);
+
+        setLoading(false);
+        clearData();
+        setFields(true);
+        setMsg("Fields uploaded successfully");
+        setAlert("success");
+
+        setTimeout(() => {
+          setFields(false);
+        }, 400);
+      }
+    } catch (err) {
+      setFields(true);
+      setMsg("Error while uploading: Try again");
+      setAlert("danger");
+
+      setTimeout(() => {
+        setFields(false);
+        setLoading(false);
+      }, 4000);
+    }
+  };
+
+  const clearData = () => {
+    (Object.keys(item) as (keyof typeof item)[]).forEach((key, index) => {
+      console.log(key, index);
+      setItem({ ...item, [key]: "" });
+    });
+    console.log(item);
+  };
 
   return (
     <div className="h-auto min-h-screen w-full p-4 flex items-center justify-center">
@@ -117,7 +196,10 @@ const CreateItem = () => {
           </div>
 
           <div className="w-full flex justify-center">
-            <select className="w-1/2  outline-none p-2 text-gray-500">
+            <select
+              onChange={(e) => changeFunction(e, "category")}
+              className="w-1/2  outline-none p-2 text-gray-500"
+            >
               <option value="other" className="bg-white">
                 Select category
               </option>
@@ -192,7 +274,7 @@ const CreateItem = () => {
               <textarea
                 required
                 value={item.description}
-                onChange={(e) => changeFunction(e, "price")}
+                onChange={(e) => changeFunction(e, "description")}
                 placeholder="Description of item..."
                 className=" w-full h-full text-lg p-1 px-2  outline-none  text-gray-700  "
               />
