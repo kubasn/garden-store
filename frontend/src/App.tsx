@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { CreateItem, Header, Main } from "./components";
 import { AnimatePresence } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { getItems } from "./components/utils/functionsFirebase";
+import { actionType } from "./state/actionType";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const fetchData = async () => {
+    await getItems().then((data) => {
+      console.log(data);
+      dispatch({
+        type: actionType.SET_ITEMS,
+        payload: data,
+      });
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const Components = (
     <Routes>
       <Route path="/" element={<Main />} />

@@ -8,4 +8,11 @@ export interface SetUserAction {
   };
 }
 
-export type Action = SetUserAction;
+export interface SetItemsAction {
+  type: actionType.SET_ITEMS;
+  payload: {
+    items: StateType;
+  };
+}
+
+export type Action = SetUserAction | SetItemsAction;

@@ -11,8 +11,10 @@ export interface StateType {
     phoneNumber: string | null;
     photoURL: string;
   };
+  items: [] | null;
 }
 
 export const initialState: StateType = {
   user: user,
+  items: null,
 };

@@ -13,7 +13,9 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../firebase.config";
-import { saveItem } from "./utils/functionsFirebase";
+import { getItems, saveItem } from "./utils/functionsFirebase";
+import { useDispatch } from "react-redux";
+import { actionType } from "../state/actionType";
 
 interface isItem {
   title: string;
@@ -28,6 +30,7 @@ const CreateItem = () => {
   const [fields, setFields] = useState(false);
   const [alert, setAlert] = useState("");
   const [msg, setMsg] = useState("");
+  const dispatch = useDispatch();
 
   const [item, setItem] = useState<isItem>({
     title: "",
@@ -37,6 +40,16 @@ const CreateItem = () => {
     image: "",
   });
   console.log(item);
+
+  const fetchData = async () => {
+    await getItems().then((data) => {
+      console.log(data);
+      dispatch({
+        type: actionType.SET_ITEMS,
+        payload: data,
+      });
+    });
+  };
 
   const changeFunction = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -152,14 +165,12 @@ const CreateItem = () => {
         setLoading(false);
       }, 4000);
     }
+
+    fetchData();
   };
 
   const clearData = () => {
-    (Object.keys(item) as (keyof typeof item)[]).forEach((key, index) => {
-      console.log(key, index);
-      setItem({ ...item, [key]: "" });
-    });
-    console.log(item);
+    setItem({ title: "", price: "", description: "", category: "", image: "" });
   };
 
   return (
