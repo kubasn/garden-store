@@ -15,7 +15,7 @@ import { CgAdd } from "react-icons/cg";
 const Header: React.FC = () => {
   const userInfo: any = useTypedSelector((state) => state.user);
   //to fix !!!
-  const [user, setUser] = useState<any | null>(userInfo.user);
+  const [user, setUser] = useState<any | null>(userInfo);
   const [showMenu, setShowMenu] = useState(false);
 
   const auth = getAuth(app);

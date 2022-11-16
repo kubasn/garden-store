@@ -1,26 +1,26 @@
 import { defaultMaxListeners } from "events";
 import produce from "immer";
+import { fetchUser } from "../components/utils/fetchLocalStorage";
 import { Action } from "./actions";
 import { actionType } from "./actionType";
-import { initialState, StateType } from "./initialState";
 
-// interface State {
-//   user: {} | null;
-// }
+const user = fetchUser();
 
-// const initialState: State = {
-//   user: null,
-// };
+interface StateType {
+  providerId: string;
+  uid: string;
+  email: string;
+  phoneNumber: string | null;
+  photoURL: string;
+}
+
+const initialState: StateType = user;
 
 const reducer = produce((state: StateType = initialState, action: Action) => {
-  console.log(action);
-
   switch (action.type) {
     case actionType.SET_USER:
-      return {
-        ...state,
-        user: action.payload.user,
-      };
+      state = action.payload.user;
+      return state;
 
     default:
       return state;

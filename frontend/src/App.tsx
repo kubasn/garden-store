@@ -14,7 +14,9 @@ function App() {
       console.log(data);
       dispatch({
         type: actionType.SET_ITEMS,
-        payload: data,
+        payload: {
+          items: data,
+        },
       });
     });
   };
