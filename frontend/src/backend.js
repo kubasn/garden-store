@@ -21,9 +21,4 @@ export const categories = [
     name: "Accessories",
     urlParamName: "accessories",
   },
-  {
-    id: "5",
-    name: "Accessories",
-    urlParamName: "vases",
-  },
 ];
