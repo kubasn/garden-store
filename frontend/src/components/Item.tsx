@@ -3,22 +3,33 @@ import { FaShoppingBasket } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { IoMdPricetags } from "react-icons/io";
 
-const Item = () => {
+interface ItemProps {
+  id: number;
+  imageUrl: string;
+  category: string;
+  description: string;
+  price: string;
+  title: string;
+}
+
+const Item: React.FC<ItemProps> = ({
+  id,
+  imageUrl,
+  category,
+  description,
+  price,
+  title,
+}) => {
+  console.log(id);
   return (
-    <div className="w-[90%] mx-auto mb-4    md:min-w-[250] md:w-[250px] h-auto shadow-md bg-white rounded-md relative">
-      <div className="w-full flex flex-col items-center justify-center gap-y-4 ">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/gardenstore-7ffba.appspot.com/o/Images%2F1668589823421-tree1.png?alt=media&token=1febeb41-8619-4dd8-89d8-1cd1131b5d89"
-          alt="item"
-          className="w-60"
-        />
-        <div className="w-full flex  justify-start ml-4 pb-2  ">
-          <div className="flex flex-col gap-y-2">
-            <p className="text-2xl text-stone-700 flex   ">
-              {/* <IoMdPricetags className="relative top-2 text-base" /> */}
-              500$
+    <div className="w-[80%] h-62 md:h-48 mx-auto mb-4  md:w-[200px]  md:min-w-[200px]   shadow-md bg-white hover:bg-stone-200 hover:shadow-xl rounded-md relative ">
+      <div className="w-full flex flex-col items-center justify-center gap-y-1 md:gap-y-2 ">
+        <img src={imageUrl} alt="item" className=" h-40 md:h-24 " />
+        <div className="w-full px-1  ">
+          <div className="flex text-xl items-center md:items-end w-full flex-col md:gap-y-2">
+            <p className="text-normal font-bold text-right  text-stone-600 px-2">
+              {title}
             </p>
-            <p className="text-normal ml-2 text-stone-600">Title tila awd</p>
           </div>
         </div>
       </div>
@@ -39,6 +50,12 @@ const Item = () => {
           <p className="w-full text-center">ADD TO CART</p>
         </button>
       </motion.div>
+
+      <p className="text-xl text-stone-700 flex absolute top-0 right-1 md:top-auto   md:bottom-1 md:right-1  items-center   ">
+        {/* <IoMdPricetags className="relative top-2 text-base" /> */}
+        {price}
+        <span className="text-green-700 text-sm ">$</span>
+      </p>
     </div>
   );
 };
