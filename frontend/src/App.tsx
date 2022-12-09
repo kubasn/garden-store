@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { CreateItem, Header, Main } from "./components";
+import { Cart, CreateItem, Header, Main } from "./components";
 import { AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { getItems } from "./components/utils/functionsFirebase";

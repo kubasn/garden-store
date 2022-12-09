@@ -11,6 +11,7 @@ import { actionType } from "../state/actionType";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import { BiLogIn } from "react-icons/bi";
 import { CgAdd } from "react-icons/cg";
+import Cart from "./Cart";
 
 const Header: React.FC = () => {
   const userInfo: any = useTypedSelector((state) => state.user);

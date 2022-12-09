@@ -26,7 +26,15 @@ const Items = forwardRef((data: any, itemsRef: any) => {
       className="w-full flex flex-col md:flex-row my-12 overflow-x-hidden scrollbar-none   md:overflow-x-scroll gap-x-4 scroll-smooth
       "
     >
-      {items && items.map((item: itemProps) => <Item {...item} />)}
+      {items && items.length > 0 ? (
+        items.map((item: itemProps) => <Item {...item} />)
+      ) : (
+        <div className="bg-rose-200 py-3 px-2 w-1/2 mx-auto rounded-md shadow-lg ">
+          <h1 className="text-rose-700 font-bold text-center">
+            Items not found!{" "}
+          </h1>
+        </div>
+      )}
     </div>
   );
 });

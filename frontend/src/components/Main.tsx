@@ -6,6 +6,7 @@ import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 import Items from "./Items";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import Menu from "./Menu";
+import Cart from "./Cart";
 
 const Main = () => {
   const newItems = useTypedSelector((state) => state.items);
@@ -52,6 +53,7 @@ const Main = () => {
       <section className="w-full my-6 ">
         <Menu />
       </section>
+      <Cart />
     </div>
   );
 };
