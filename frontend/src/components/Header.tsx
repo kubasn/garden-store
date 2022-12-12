@@ -15,6 +15,7 @@ import Cart from "./Cart";
 
 const Header: React.FC = () => {
   const userInfo: any = useTypedSelector((state) => state.user);
+  const cart = useTypedSelector((state) => state.cart);
   //to fix !!!
   const [user, setUser] = useState<any | null>(userInfo);
   const [showMenu, setShowMenu] = useState(false);
@@ -32,6 +33,14 @@ const Header: React.FC = () => {
       payload: { user: null },
     });
     setUser(null);
+  };
+
+  const showCart = () => {
+    console.log(cart.show);
+    dispatch({
+      type: actionType.SET_CART_SHOW,
+      payload: { ...cart, show: !cart.show },
+    });
   };
 
   const loginHandle = async () => {
@@ -76,7 +85,10 @@ const Header: React.FC = () => {
             </li>
           </motion.ul>
           <div className="relative flex items-center">
-            <FiShoppingCart className="text-gray-500 text-xl  cursor-pointer" />
+            <FiShoppingCart
+              className="text-gray-500 text-xl  cursor-pointer"
+              onClick={() => showCart()}
+            />
             <div className="w-4 h-4 absolute top-[-10px] left-5 text-center rounded-full bg-red-800">
               <p className="text-xs text-white font-semibold">2</p>
             </div>

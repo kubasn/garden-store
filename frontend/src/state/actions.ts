@@ -14,4 +14,12 @@ export interface SetItemsAction {
   };
 }
 
-export type Action = SetUserAction | SetItemsAction;
+export interface SetCartShowAction {
+  type: actionType.SET_CART_SHOW;
+  payload: {
+    show: boolean;
+    items: [] | null;
+  };
+}
+
+export type Action = SetUserAction | SetItemsAction | SetCartShowAction;

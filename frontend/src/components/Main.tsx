@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Delivery from "../images/delivery.png";
 import Home from "./Home";
 import { motion } from "framer-motion";
@@ -10,6 +10,8 @@ import Cart from "./Cart";
 
 const Main = () => {
   const newItems = useTypedSelector((state) => state.items);
+  const cart = useTypedSelector((state) => state.cart);
+
   const itemsRef = useRef<HTMLDivElement | null>(null);
 
   const scroll = (scrollOffset: any) => {
@@ -17,6 +19,8 @@ const Main = () => {
       itemsRef.current.scrollLeft += scrollOffset;
     }
   };
+
+  useEffect(() => {}, [cart.show]);
 
   return (
     <div className="w-full h-auto flex flex-col items-center justify-center">
@@ -53,7 +57,7 @@ const Main = () => {
       <section className="w-full my-6 ">
         <Menu />
       </section>
-      <Cart />
+      {cart.show && <Cart />}
     </div>
   );
 };
