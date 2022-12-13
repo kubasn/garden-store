@@ -60,7 +60,34 @@ const Item: React.FC<ItemProps> = ({
         className="hidden md:block absolute top-2 right-2"
       >
         <button
-          onClick={addToCart}
+          onClick={() =>
+            setItems(
+              cart.items && cart.items.length > 0
+                ? [
+                    ...cart.items,
+                    {
+                      id,
+                      imageUrl,
+                      category,
+                      description,
+                      price,
+                      title,
+                      qty: 1,
+                    },
+                  ]
+                : [
+                    {
+                      id,
+                      imageUrl,
+                      category,
+                      description,
+                      price,
+                      title,
+                      qty: 1,
+                    },
+                  ]
+            )
+          }
           className="bg-stone-700 hover:bg-stone-900  hover:shadow-xl p-3 text-white rounded-full"
         >
           <FaShoppingBasket />
@@ -84,6 +111,7 @@ const Item: React.FC<ItemProps> = ({
                       description,
                       price,
                       title,
+                      qty: 1,
                     },
                   ]
                 : [
@@ -94,6 +122,7 @@ const Item: React.FC<ItemProps> = ({
                       description,
                       price,
                       title,
+                      qty: 1,
                     },
                   ]
             )

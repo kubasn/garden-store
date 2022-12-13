@@ -10,6 +10,7 @@ interface CartType {
   description: string;
   price: string;
   title: string;
+  qty: number;
 }
 
 interface StateType {
