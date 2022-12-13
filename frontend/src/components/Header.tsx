@@ -36,7 +36,7 @@ const Header: React.FC = () => {
   };
 
   const showCart = () => {
-    console.log(cart.show);
+    console.log({ ...cart, show: !cart.show });
     dispatch({
       type: actionType.SET_CART_SHOW,
       payload: { ...cart, show: !cart.show },
@@ -89,9 +89,13 @@ const Header: React.FC = () => {
               className="text-gray-500 text-xl  cursor-pointer"
               onClick={() => showCart()}
             />
-            <div className="w-4 h-4 absolute top-[-10px] left-5 text-center rounded-full bg-red-800">
-              <p className="text-xs text-white font-semibold">2</p>
-            </div>
+            {cart.items && (
+              <div className="w-4 h-4 absolute top-[-10px] left-5 text-center rounded-full bg-red-800">
+                <p className="text-xs text-white font-semibold">
+                  {cart.items.length}
+                </p>
+              </div>
+            )}
           </div>
           <div>
             <motion.img
@@ -133,10 +137,17 @@ const Header: React.FC = () => {
       {/* mobile */}
       <div className="flex items-center justify-between md:hidden w-full h-full">
         <div className="relative flex items-center">
-          <FiShoppingCart className="text-gray-500 text-[40px]  cursor-pointer" />
-          <div className="w-6 h-6 absolute top-[-10px] left-10 text-center flex items-center justify-center rounded-full bg-red-800">
-            <p className="text-xs text-white font-semibold">2</p>
-          </div>
+          <FiShoppingCart
+            className="text-gray-500 text-[40px]  cursor-pointer"
+            onClick={() => showCart()}
+          />
+          {cart.items && (
+            <div className="w-4 h-4 absolute top-[-10px] left-5 text-center rounded-full bg-red-800">
+              <p className="text-xs text-white font-semibold">
+                {cart.items.length}
+              </p>
+            </div>
+          )}
         </div>
 
         <Link to="/" className="flex items-center gap-2">

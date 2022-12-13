@@ -15,9 +15,7 @@ const Items = forwardRef((data: any, itemsRef: any) => {
   const [items, setItems] = useState<[] | null>(null);
 
   useEffect(() => {
-    console.log(data.data);
     setItems(data.data);
-    console.log(items);
   }, [data]);
 
   return (
