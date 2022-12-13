@@ -47,6 +47,11 @@ const CartItem: React.FC<CartItemProps> = ({
       console.log(newItems);
       newItems?.map((item: any, key) => {
         if (item.id == id) {
+          console.log("ello", key, item.qty + 1);
+          item = { ...item, qty: item.qty + 1 };
+          // newItems = [...newItems]
+          console.log(item);
+
           if (item != null) item.qty += 1;
         }
       });
