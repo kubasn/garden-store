@@ -44,7 +44,6 @@ const CartItem: React.FC<CartItemProps> = ({
   const changeQuantity = (sign: string, id: number) => {
     if (sign == "+") {
       setItemQty(itemQty + 1);
-      console.log(newItems);
       newItems?.map((item: any, key) => {
         if (item.id == id) {
           console.log("ello", key, item.qty + 1);
@@ -59,6 +58,7 @@ const CartItem: React.FC<CartItemProps> = ({
       setItems(newItems);
     }
     if (sign == "-" && itemQty > 0) setItemQty(itemQty - 1);
+    console.log(itemQty);
     updateCart();
   };
 
