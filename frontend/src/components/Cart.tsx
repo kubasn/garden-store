@@ -20,6 +20,15 @@ const Cart: React.FC = () => {
     });
   };
 
+  const reduce = () => {
+    let total = 0;
+    if (cart.items != null)
+      for (let val of cart.items) {
+        total += parseFloat(val.price) * val.qty;
+      }
+    return total;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 200 }}
@@ -61,7 +70,7 @@ const Cart: React.FC = () => {
           <div className="w-full flex-1 bg-gray-50  flex flex-col items-center justify-evenly px-8 pb-2">
             <div className="w-full flex items-center justify-between">
               <p className="text-gray-500 text-lg">Subtotal</p>
-              <p className="text-gray-500 text-lg">8.5$</p>
+              <p className="text-gray-500 text-lg">{reduce()}$</p>
             </div>
             <div className="w-full flex items-center justify-between">
               <p className="text-gray-500 text-lg">Delivery cost:</p>

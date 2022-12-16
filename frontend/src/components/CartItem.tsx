@@ -23,7 +23,7 @@ const CartItem: React.FC<CartItemProps> = ({
   let cart = useTypedSelector((state) => state.cart);
   const [items, setItems] = useState<any>(cart.items);
   const dispatch = useDispatch();
-  let newItems = cart.items;
+  let newItems = JSON.parse(JSON.stringify(cart.items));
 
   const updateCart = () => {
     console.log(items);
@@ -38,28 +38,28 @@ const CartItem: React.FC<CartItemProps> = ({
   };
 
   useEffect(() => {
-    setItems(cart.items);
-  }, [qty]);
-
+    updateCart();
+  }, [items]);
   const changeQuantity = (sign: string, id: number) => {
     if (sign == "+") {
-      setItemQty(itemQty + 1);
-      newItems?.map((item: any, key) => {
+      newItems?.map((item: any, key: number) => {
         if (item.id == id) {
-          console.log("ello", key, item.qty + 1);
-          item = { ...item, qty: item.qty + 1 };
-          // newItems = [...newItems]
-          console.log(item);
-
-          if (item != null) item.qty += 1;
+          item.qty += 1;
         }
       });
-      console.log(newItems);
+      setItemQty(itemQty + 1);
       setItems(newItems);
     }
-    if (sign == "-" && itemQty > 0) setItemQty(itemQty - 1);
-    console.log(itemQty);
-    updateCart();
+
+    if (sign == "-" && itemQty > 0) {
+      newItems?.map((item: any, key: number) => {
+        if (item.id == id) {
+          item.qty -= 1;
+        }
+      });
+      setItemQty(itemQty - 1);
+      setItems(newItems);
+    }
   };
 
   return (
@@ -79,7 +79,7 @@ const CartItem: React.FC<CartItemProps> = ({
       </div>
 
       <div className="group flex items-center gap-2 ml-auto cursor-pointer bg-gray-200 px-2 rounded-xl">
-        {itemQty > 0 ? (
+        {itemQty > 1 ? (
           <motion.div
             onClick={() => changeQuantity("-", id)}
             whileTap={{ scale: 1.3 }}
