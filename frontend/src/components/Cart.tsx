@@ -6,6 +6,7 @@ import { useTypedSelector } from "../hooks/use-typed-selector";
 import { useDispatch } from "react-redux";
 import { actionType } from "../state/actionType";
 import CartItem from "./CartItem";
+// import CartGif from '../images/cart.gif'
 
 const Cart: React.FC = () => {
   const cart = useTypedSelector((state) => state.cart);
@@ -29,6 +30,14 @@ const Cart: React.FC = () => {
     return total;
   };
 
+  const emptyCart = () => {
+    localStorage.removeItem("cart");
+    dispatch({
+      type: actionType.SET_CART_SHOW,
+      payload: { ...cart, items: [] },
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 200 }}
@@ -48,7 +57,10 @@ const Cart: React.FC = () => {
           whileTap={{ scale: 1.2 }}
           className="flex  px-2 py-1 rounded-md text-rose-800 text-xl  "
         >
-          <BsFillTrashFill className="relative right-1 top-[6px] text-lg" />{" "}
+          <BsFillTrashFill
+            onClick={emptyCart}
+            className="relative right-1 top-[6px] text-lg"
+          />{" "}
         </motion.p>
       </div>
 
@@ -102,7 +114,12 @@ const Cart: React.FC = () => {
         </>
       ) : (
         <div>
-          <p>Cart is empty</p>
+          <img
+            className="w-60 mx-auto pt-24"
+            src={require("../images/cart.gif")}
+            alt="loading..."
+          />
+          <p className="text-center text-2xl text-stone-700">Cart is empty</p>
         </div>
       )}
     </motion.div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "../images/avatar.png";
 import logo from "../images/logo.svg";
 import { FiShoppingCart } from "react-icons/fi";
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
   //to fix !!!
   const [user, setUser] = useState<any | null>(userInfo);
   const [showMenu, setShowMenu] = useState(false);
-
+  const [bg, setBg] = useState(false);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const dispatch = useDispatch();
@@ -43,6 +43,12 @@ const Header: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      window.scrollY > 50 ? setBg(true) : setBg(false);
+    });
+  }, []);
+
   const loginHandle = async () => {
     if (!user) {
       const {
@@ -61,11 +67,19 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="fixed z-50 w-screen p-3 px-4 md:p-8 md:px-16">
+    <header
+      className={`fixed z-50 w-screen p-3 px-4 md:p-8 md:px-16 ${
+        bg && "bg-white p-1 md:p-1"
+      } transition-all duration-200`}
+    >
       {/* dekstop and tablet */}
       <div className="hidden md:flex w-full h-full  justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} className="w-24" alt="logo" />
+          <img
+            src={logo}
+            className={`w-24  ${bg && "w-14"}  transition-all duration-200`}
+            alt="logo"
+          />
         </Link>
         <div className="flex items-center gap-8">
           <motion.ul
