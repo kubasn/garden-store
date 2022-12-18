@@ -26,6 +26,8 @@ const Item: React.FC<ItemProps> = ({
   const dispatch = useDispatch();
   const cart = useTypedSelector((state) => state.cart);
   const [items, setItems] = useState<any>([]);
+  let newItems = JSON.parse(JSON.stringify(cart.items));
+
   const addToCart = () => {
     if (items && items.length > 0) {
       dispatch({
@@ -40,8 +42,41 @@ const Item: React.FC<ItemProps> = ({
   };
 
   useEffect(() => {
+    console.log(newItems);
     addToCart();
   }, [items]);
+
+  const addItem = () => {
+    let flag = 0;
+    console.log("ello");
+    let newItem = {
+      id,
+      imageUrl,
+      category,
+      description,
+      price,
+      title,
+      qty: 1,
+    };
+    console.log(id);
+    newItems?.map((item: any) => {
+      console.log(item.id, id);
+      if (item.id === id) {
+        item.qty += 1;
+        flag = 1;
+      }
+    });
+    if (flag == 1) {
+      console.log("ww");
+      if (cart.items && cart.items.length > 0) setItems(newItems);
+    } else {
+      setItems(
+        cart.items && cart.items.length > 0
+          ? [...cart.items, newItem]
+          : [newItem]
+      );
+    }
+  };
 
   return (
     <div className="w-[80%] h-62 md:h-48 mx-auto mb-4  md:w-[200px]  md:min-w-[200px]   shadow-md bg-white hover:bg-stone-200 hover:shadow-xl rounded-md relative ">
@@ -60,34 +95,7 @@ const Item: React.FC<ItemProps> = ({
         className="hidden md:block absolute top-2 right-2"
       >
         <button
-          onClick={() =>
-            setItems(
-              cart.items && cart.items.length > 0
-                ? [
-                    ...cart.items,
-                    {
-                      id,
-                      imageUrl,
-                      category,
-                      description,
-                      price,
-                      title,
-                      qty: 1,
-                    },
-                  ]
-                : [
-                    {
-                      id,
-                      imageUrl,
-                      category,
-                      description,
-                      price,
-                      title,
-                      qty: 1,
-                    },
-                  ]
-            )
-          }
+          onClick={addItem}
           className="bg-stone-700 hover:bg-stone-900  hover:shadow-xl p-3 text-white rounded-full"
         >
           <FaShoppingBasket />
@@ -99,34 +107,7 @@ const Item: React.FC<ItemProps> = ({
         className=" md:hidden w-full flex   pb-2  "
       >
         <button
-          onClick={() =>
-            setItems(
-              cart.items && cart.items.length > 0
-                ? [
-                    ...cart.items,
-                    {
-                      id,
-                      imageUrl,
-                      category,
-                      description,
-                      price,
-                      title,
-                      qty: 1,
-                    },
-                  ]
-                : [
-                    {
-                      id,
-                      imageUrl,
-                      category,
-                      description,
-                      price,
-                      title,
-                      qty: 1,
-                    },
-                  ]
-            )
-          }
+          onClick={addItem}
           className=" relative  mx-auto w-[90%] bg-stone-700 hover:bg-stone-900  hover:shadow-xl text-white rounded-full py-2"
         >
           <p className="w-full text-center">ADD TO CART</p>

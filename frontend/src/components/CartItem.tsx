@@ -36,8 +36,6 @@ const CartItem: React.FC<CartItemProps> = ({
     setWhishlist(!whishlist);
   };
 
-  const deleteItem = () => {};
-
   const updateCart = () => {
     console.log(items);
     localStorage.setItem("cart", JSON.stringify(items));
@@ -73,6 +71,12 @@ const CartItem: React.FC<CartItemProps> = ({
       setItemQty(itemQty - 1);
       setItems(newItems);
     }
+  };
+
+  const deleteItem = (id: number) => {
+    console.log(id);
+    newItems = newItems?.filter((item: any) => item.id !== id);
+    setItems(newItems);
   };
 
   return (
@@ -118,7 +122,7 @@ const CartItem: React.FC<CartItemProps> = ({
       </div>
       <div className="text-xs flex gap-2 mt-1 absolute right-2 top-[0.2rem]">
         <AiOutlinePlus
-          onClick={deleteItem}
+          onClick={() => deleteItem(id)}
           className="rotate-45 text-[17px] text-stone-800	hover:text-rose-700"
         />
         {whishlist ? (
