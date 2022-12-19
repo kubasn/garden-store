@@ -42,13 +42,11 @@ const Item: React.FC<ItemProps> = ({
   };
 
   useEffect(() => {
-    console.log(newItems);
     addToCart();
   }, [items]);
 
   const addItem = () => {
     let flag = 0;
-    console.log("ello");
     let newItem = {
       id,
       imageUrl,
@@ -58,16 +56,13 @@ const Item: React.FC<ItemProps> = ({
       title,
       qty: 1,
     };
-    console.log(id);
     newItems?.map((item: any) => {
-      console.log(item.id, id);
       if (item.id === id) {
         item.qty += 1;
         flag = 1;
       }
     });
     if (flag == 1) {
-      console.log("ww");
       if (cart.items && cart.items.length > 0) setItems(newItems);
     } else {
       setItems(

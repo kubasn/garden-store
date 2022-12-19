@@ -10,6 +10,7 @@ import { useTypedSelector } from "../hooks/use-typed-selector";
 import { actionType } from "../state/actionType";
 import { useDispatch } from "react-redux";
 import { MdOutlineCancel } from "react-icons/md";
+import { saveWishlist } from "./utils/functionsFirebase";
 
 interface CartItemProps {
   id: number;
@@ -28,6 +29,8 @@ const CartItem: React.FC<CartItemProps> = ({
   const [itemQty, setItemQty] = useState<number>(qty);
   const [whishlist, setWhishlist] = useState<boolean>(false);
   let cart = useTypedSelector((state) => state.cart);
+  let user = useTypedSelector((state) => state.user);
+
   const [items, setItems] = useState<any>(cart.items);
   const dispatch = useDispatch();
   let newItems = JSON.parse(JSON.stringify(cart.items));
@@ -36,8 +39,53 @@ const CartItem: React.FC<CartItemProps> = ({
     setWhishlist(!whishlist);
   };
 
+  useEffect(() => {
+    let local = JSON.parse(localStorage.getItem("wishlist") as string);
+    if (whishlist == true) {
+      let wishItem = {
+        id,
+        imageUrl,
+        title,
+        price,
+        qty,
+      };
+      let listToSave;
+      //if there is not item with the same id
+      if (
+        local !== null &&
+        !local.wishItems.some((item: any) => item.id == id)
+      ) {
+        console.log(...local.wishItems);
+        listToSave = {
+          userId: user.uid,
+          wishItems: [...local.wishItems, wishItem],
+        };
+      } else {
+        listToSave = {
+          userId: user.uid,
+          wishItems: [wishItem],
+        };
+      }
+      localStorage.setItem("wishlist", JSON.stringify(listToSave));
+    } else {
+      if (
+        local !== null &&
+        local.wishItems.some((item: any) => item.id == id)
+      ) {
+        console.log("rll");
+        const updatedArray = local.wishItems.filter(
+          (item: any) => item.id !== id
+        );
+        let listToSave = {
+          userId: user.uid,
+          wishItems: updatedArray,
+        };
+        localStorage.setItem("wishlist", JSON.stringify(listToSave));
+      }
+    }
+  }, [whishlist]);
+
   const updateCart = () => {
-    console.log(items);
     localStorage.setItem("cart", JSON.stringify(items));
     dispatch({
       type: actionType.SET_CART_SHOW,
@@ -49,8 +97,13 @@ const CartItem: React.FC<CartItemProps> = ({
   };
 
   useEffect(() => {
+    setItemQty(qty);
+  }, [qty]);
+
+  useEffect(() => {
     updateCart();
   }, [items]);
+
   const changeQuantity = (sign: string, id: number) => {
     if (sign == "+") {
       newItems?.map((item: any, key: number) => {
@@ -74,7 +127,6 @@ const CartItem: React.FC<CartItemProps> = ({
   };
 
   const deleteItem = (id: number) => {
-    console.log(id);
     newItems = newItems?.filter((item: any) => item.id !== id);
     setItems(newItems);
   };

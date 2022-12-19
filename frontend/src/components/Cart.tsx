@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { motion } from "framer-motion";
 import { BsFillTrashFill } from "react-icons/bs";
@@ -11,8 +11,12 @@ import CartItem from "./CartItem";
 const Cart: React.FC = () => {
   const cart = useTypedSelector((state) => state.cart);
   const user = useTypedSelector((state) => state.user);
-
+  const [items, setItems] = useState(cart.items);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setItems(cart.items);
+  }, [cart]);
 
   const closeCart = () => {
     dispatch({
@@ -65,12 +69,12 @@ const Cart: React.FC = () => {
       </div>
 
       {/* botton */}
-      {cart.items && cart.items!.length ? (
+      {items && items!.length ? (
         <>
           <div className="w-full h-full rounded-t-[40px] border-y-[1px]  flex flex-col">
             <div className="w-full h-[340px] md:h-[42px] px-6 py-10 flex flex-col gap-3">
               {/* items */}
-              {cart.items?.map((item) => {
+              {items?.map((item) => {
                 return (
                   <div className="w-full flex justify-center">
                     <CartItem {...item} />

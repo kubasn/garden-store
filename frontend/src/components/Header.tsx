@@ -136,6 +136,11 @@ const Header: React.FC = () => {
                     </p>
                   </Link>
                 )}
+                <Link to="wishlist">
+                  <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
+                    <CgAdd className="relative top-1" /> Orders
+                  </p>
+                </Link>
 
                 <p
                   onClick={logout}
@@ -193,7 +198,11 @@ const Header: React.FC = () => {
                   </p>
                 </Link>
               )}
-
+              <Link to="wishlist">
+                <p className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg w-full px-2 py-2">
+                  <CgAdd className="relative top-1" /> Orders
+                </p>
+              </Link>
               <ul className="flex flex-col items-center  text-gray-500   font-semibold  ">
                 <li
                   className="text-lg cursor-pointer  hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"

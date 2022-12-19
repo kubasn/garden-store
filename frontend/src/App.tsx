@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { getItems } from "./components/utils/functionsFirebase";
 import { actionType } from "./state/actionType";
+import Wishlist from "./components/Wishlist";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/createItem" element={<CreateItem />} />
+      <Route path="/wishlist" element={<Wishlist />} />
     </Routes>
   );
 
