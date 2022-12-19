@@ -57,7 +57,7 @@ const Main = () => {
       <section className="w-full my-6 ">
         <Menu />
       </section>
-      {cart.show && <Cart />}
+      {/* {cart.show && <Cart />} */}
     </div>
   );
 };

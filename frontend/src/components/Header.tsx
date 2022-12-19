@@ -12,6 +12,7 @@ import { useTypedSelector } from "../hooks/use-typed-selector";
 import { BiLogIn } from "react-icons/bi";
 import { CgAdd } from "react-icons/cg";
 import Cart from "./Cart";
+import { AiFillHeart, AiOutlinePlus } from "react-icons/ai";
 
 const Header: React.FC = () => {
   const userInfo: any = useTypedSelector((state) => state.user);
@@ -88,12 +89,11 @@ const Header: React.FC = () => {
             exit={{ opacity: 0, x: 200 }}
             className="flex items-center   text-gray-500 gap-8  font-semibold "
           >
-            <li className="text-lg cursor-pointer  hover:text-gray-900 ease-in-out transition-all ">
-              Home
-            </li>
-            <li className="text-lg cursor-pointer hover:text-gray-900 ease-in-out transition-all">
-              Menu
-            </li>
+            <Link to="/">
+              <li className="text-lg cursor-pointer  hover:text-gray-900 ease-in-out transition-all ">
+                Home
+              </li>
+            </Link>
             <li className="text-lg cursor-pointer hover:text-gray-900 ease-in-out transition-all">
               About us
             </li>
@@ -132,13 +132,25 @@ const Header: React.FC = () => {
                       className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2"
                       onClick={() => setShowMenu(false)}
                     >
-                      <CgAdd className="relative top-1" /> New item
+                      <AiOutlinePlus className="relative top-1 rotate-90" /> New
+                      item
                     </p>
                   </Link>
                 )}
                 <Link to="wishlist">
-                  <p className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2">
-                    <CgAdd className="relative top-1" /> Orders
+                  <p
+                    className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    <AiFillHeart className="relative top-1" /> Wishlist
+                  </p>
+                </Link>
+                <Link to="orders">
+                  <p
+                    className="flex cursor-pointer transition-all hover:bg-gray-300 hover:rounded-t-xl w-full px-2"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    My orders
                   </p>
                 </Link>
 
@@ -194,28 +206,36 @@ const Header: React.FC = () => {
                     className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg  hover:rounded-t-xl w-full px-2 py-2"
                     onClick={() => setShowMenu(false)}
                   >
-                    <CgAdd className="relative top-1" /> New item
+                    <AiOutlinePlus className="relative top-1 rotate-90" /> New
+                    item
                   </p>
                 </Link>
               )}
               <Link to="wishlist">
-                <p className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg w-full px-2 py-2">
-                  <CgAdd className="relative top-1" /> Orders
+                <p
+                  className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg w-full px-2 py-2"
+                  onClick={() => setShowMenu(false)}
+                >
+                  <AiFillHeart className="relative top-1" /> Wishlist
+                </p>
+              </Link>
+              <Link to="orders">
+                <p
+                  className="flex cursor-pointer transition-all justify-center hover:bg-gray-300 text-gray-500 font-semibold text-lg w-full px-2 py-2"
+                  onClick={() => setShowMenu(false)}
+                >
+                  My orders
                 </p>
               </Link>
               <ul className="flex flex-col items-center  text-gray-500   font-semibold  ">
-                <li
-                  className="text-lg cursor-pointer  hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
-                  onClick={() => setShowMenu(false)}
-                >
-                  Home
-                </li>
-                <li
-                  className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
-                  onClick={() => setShowMenu(false)}
-                >
-                  Menu
-                </li>
+                <Link to="/">
+                  <li
+                    className="text-lg cursor-pointer  hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Home
+                  </li>
+                </Link>
                 <li
                   className="text-lg cursor-pointer hover:bg-gray-300 ease-in-out transition-all text-center   w-full px-2 py-2"
                   onClick={() => setShowMenu(false)}
@@ -234,6 +254,7 @@ const Header: React.FC = () => {
           )}
         </div>
       </div>
+      {cart.show && <Cart />}
     </header>
   );
 };
