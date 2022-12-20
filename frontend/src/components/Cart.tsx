@@ -6,6 +6,7 @@ import { useTypedSelector } from "../hooks/use-typed-selector";
 import { useDispatch } from "react-redux";
 import { actionType } from "../state/actionType";
 import CartItem from "./CartItem";
+import { Link } from "react-router-dom";
 // import CartGif from '../images/cart.gif'
 
 const Cart: React.FC = () => {
@@ -104,16 +105,18 @@ const Cart: React.FC = () => {
             </div>
 
             {user ? (
-              <motion.button
-                whileTap={{ scale: 1.3 }}
-                className="w-3/4 p-2 rounded-md bg-stone-700 hover:bg-stone-800 text-gray-50 text-lg my-2 hover:shadow-lg transition-all duration-150 ease-out"
-              >
-                Proceed to checkout
-              </motion.button>
+              <Link className="w-3/4" to="checkout">
+                <motion.button
+                  whileTap={{ scale: 1.3 }}
+                  className="w-full p-2 rounded-md bg-stone-700 hover:bg-stone-800 text-gray-50 text-lg my-2 hover:shadow-lg transition-all duration-150 ease-out"
+                >
+                  Proceed to checkout
+                </motion.button>
+              </Link>
             ) : (
               <motion.button
                 whileTap={{ scale: 1.3 }}
-                className="w-3/4 p-2 rounded-md bg-stone-700 hover:bg-stone-800 text-gray-50 text-lg my-2 hover:shadow-lg transition-all duration-150 ease-out"
+                className="w-full p-2 rounded-md bg-stone-700 hover:bg-stone-800 text-gray-50 text-lg my-2 hover:shadow-lg transition-all duration-150 ease-out"
               >
                 Sign In to checkout
               </motion.button>

@@ -6,6 +6,9 @@ import { useDispatch } from "react-redux";
 import { getItems } from "./components/utils/functionsFirebase";
 import { actionType } from "./state/actionType";
 import Wishlist from "./components/Wishlist";
+import Orders from "./components/Orders";
+import Footer from "./components/Footer";
+import Checkout from "./components/Checkout";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,9 +31,11 @@ function App() {
 
   const Components = (
     <Routes>
-      <Route path="/" element={<Main />} />
       <Route path="/createItem" element={<CreateItem />} />
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/" element={<Main />} />
     </Routes>
   );
 
@@ -39,6 +44,7 @@ function App() {
       <div className=" w-screen h-auto flex flex-col bg-gray-100">
         <Header />
         <main className="mt-36 px-8 py-4 w-full">{Components}</main>
+        <Footer />
       </div>
     </AnimatePresence>
   );

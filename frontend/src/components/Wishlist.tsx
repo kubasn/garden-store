@@ -74,7 +74,7 @@ const Wishlist = () => {
   };
 
   return (
-    <div className="h-full min-h-[calc(100vh-11rem)]">
+    <div className="h-full min-h-[calc(100vh-22rem)]">
       <div>
         <p className="font-semibold tracking-wider text-3xl text-stone-800 text-center">
           Wishlist
