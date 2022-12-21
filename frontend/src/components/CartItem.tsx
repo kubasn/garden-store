@@ -9,8 +9,6 @@ import {
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import { actionType } from "../state/actionType";
 import { useDispatch } from "react-redux";
-import { MdOutlineCancel } from "react-icons/md";
-import { saveWishlist } from "./utils/functionsFirebase";
 
 interface CartItemProps {
   id: number;

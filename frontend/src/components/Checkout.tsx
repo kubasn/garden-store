@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import logo from "../images/logo.png";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { AiOutlinePlus } from "react-icons/ai";
+import { saveOrders } from "./utils/functionsFirebase";
 
 interface cartType {
   category: string;
@@ -16,6 +18,7 @@ interface cartType {
 const Checkout = () => {
   const cart = useTypedSelector((state) => state.cart);
   const user = useTypedSelector((state) => state.user);
+  const [selected, setSelected] = useState(false);
   const [items, setItems] = useState<cartType[]>([]);
   let delivery = 10;
   const reduce = () => {
@@ -30,6 +33,32 @@ const Checkout = () => {
   useEffect(() => {
     if (cart && cart.items !== null) setItems(cart.items);
   }, [cart]);
+
+  const confirmOrder = () => {
+    let date = new Date().toLocaleDateString();
+    let orderItems: any = [];
+    items.map((item) => {
+      orderItems.push({
+        id: item.id,
+        price: item.price,
+        title: item.title,
+        qty: item.qty,
+      });
+    });
+    let orderDetails = {
+      userId: user.uid,
+      date: date,
+      subtotal: reduce() + delivery,
+      orderItems: JSON.stringify(orderItems),
+    };
+    console.log(orderDetails);
+
+    try {
+      saveOrders(orderDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="h-full min-h-[calc(100vh-22rem)] flex flex-col gap-10">
@@ -75,6 +104,7 @@ const Checkout = () => {
           <div className="w-4/5 h-[1px] bg-gray-200 my-4 m-auto"></div>
           <motion.button
             whileTap={{ scale: 1.1 }}
+            onClick={() => setSelected(true)}
             className="w-4/5 m-auto flex py-1 justify-center border-[1px] text-white text-sm bg-sky-900"
           >
             TRADITIONAL PAYMENT
@@ -92,6 +122,39 @@ const Checkout = () => {
           </motion.button>
         </div>
       </div>
+      {selected && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ x: 300, y: 100, opacity: 0 }}
+            animate={{ x: 0, y: 0, opacity: 1 }}
+            exit={{ x: -300, opacity: 0 }}
+            className="absolute left-[20%] w-[60%] h-[40%] border-[1px] border-stone-300 bg-white"
+          >
+            <span
+              onClick={() => setSelected(false)}
+              className="absolute right-1 top-1"
+            >
+              <AiOutlinePlus className="rotate-45 text-2xl cursor-pointer text-rose-600" />
+            </span>
+            <p className="text-center mt-4 text-2xl  ">Payment</p>
+            <div className=" h-[60%] flex flex-col gap-3 items-center justify-center">
+              <p>
+                Bank account: <b>412 421 5436 4563 234</b>
+              </p>
+              <p>
+                Sum:<b> {delivery + reduce()}$</b>
+              </p>
+            </div>
+            <motion.button
+              whileTap={{ scale: 1.1 }}
+              onClick={() => confirmOrder()}
+              className="uppercase cursor-pointer w-1/3 m-auto flex py-3 justify-center border-[1px] text-white text-sm bg-sky-900"
+            >
+              confirm
+            </motion.button>
+          </motion.div>
+        </AnimatePresence>
+      )}
     </div>
   );
 };
