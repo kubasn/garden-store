@@ -4,6 +4,10 @@ import logo from "../images/logo.png";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiOutlinePlus } from "react-icons/ai";
 import { saveOrders } from "./utils/functionsFirebase";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { useDispatch } from "react-redux";
+import { actionType } from "../state/actionType";
 
 interface cartType {
   category: string;
@@ -16,18 +20,20 @@ interface cartType {
 }
 
 const Checkout = () => {
+  const dispatch = useDispatch();
+  const currency = "USD";
   const cart = useTypedSelector((state) => state.cart);
   const user = useTypedSelector((state) => state.user);
   const [selected, setSelected] = useState(false);
   const [items, setItems] = useState<cartType[]>([]);
-  let delivery = 10;
+  let delivery = cart.items && cart.items.length > 0 ? 1 : 0;
   const reduce = () => {
     let total = 0;
     if (cart.items != null)
       for (let val of cart.items) {
         total += parseFloat(val.price) * val.qty;
       }
-    return total;
+    return total + delivery;
   };
 
   useEffect(() => {
@@ -48,12 +54,17 @@ const Checkout = () => {
     let orderDetails = {
       userId: user.uid,
       date: date,
-      subtotal: reduce() + delivery,
+      subtotal: reduce(),
       orderItems: JSON.stringify(orderItems),
     };
     console.log(orderDetails);
 
     try {
+      localStorage.removeItem("cart");
+      dispatch({
+        type: actionType.SET_CART_SHOW,
+        payload: { ...cart, items: [] },
+      });
       saveOrders(orderDetails);
     } catch (err) {
       console.log(err);
@@ -90,7 +101,7 @@ const Checkout = () => {
           <div className="pl-2">
             <p className="flex justify-between">
               <span>Subtotal</span>
-              <span className="mr-4">{reduce()}</span>
+              <span className="mr-4">{reduce()} $</span>
             </p>
             <p className="flex justify-between">
               <span>Delivery</span>
@@ -98,28 +109,63 @@ const Checkout = () => {
             </p>
             <p className="flex justify-between mt-4 font-semibold ">
               <span>Estimated total</span>
-              <span className="mr-4">{delivery + reduce()} $</span>
+              <span className="mr-4">{reduce()} $</span>
             </p>
           </div>
           <div className="w-4/5 h-[1px] bg-gray-200 my-4 m-auto"></div>
-          <motion.button
-            whileTap={{ scale: 1.1 }}
-            onClick={() => setSelected(true)}
-            className="w-4/5 m-auto flex py-1 justify-center border-[1px] text-white text-sm bg-sky-900"
-          >
-            TRADITIONAL PAYMENT
-          </motion.button>
-          <div className="flex items-center gap-2 w-[98%] m-auto ">
-            <div className="w-4/5 h-[1px] bg-gray-200 my-4 m-auto"></div>
-            <p className="text-gray-500">Or</p>
-            <div className="w-4/5 h-[1px] bg-gray-200 my-4 m-auto"></div>
-          </div>
-          <motion.button
-            whileTap={{ scale: 1.1 }}
-            className=" flex border-[1px] border-black w-4/5 m-auto mb-4 rounded-sm"
-          >
-            <img src={logo} className="w-1/2 m-auto py-1  " alt="" />
-          </motion.button>
+          {items && items.length > 0 ? (
+            <div className="">
+              <motion.button
+                whileTap={{ scale: 1.1 }}
+                onClick={() => setSelected(true)}
+                className="w-4/5 m-auto flex py-1 justify-center border-[1px] text-white text-sm bg-sky-900"
+              >
+                TRADITIONAL PAYMENT
+              </motion.button>
+              <div className="flex items-center gap-2 w-[98%] m-auto ">
+                <div className="w-4/5 h-[1px] bg-gray-200 my-4 m-auto"></div>
+                <p className="text-gray-500">Or</p>
+                <div className="w-4/5 h-[1px] bg-gray-200 my-4 m-auto"></div>
+              </div>
+              <div className="w-4/5 mt-2 mb-4 mx-auto relative z-[10]">
+                <PayPalScriptProvider options={{ "client-id": "test" }}>
+                  <PayPalButtons
+                    className=" "
+                    createOrder={(data, actions) => {
+                      return actions.order
+                        .create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                currency_code: currency,
+                                value: reduce().toString(),
+                              },
+                            },
+                          ],
+                        })
+                        .then((orderId) => {
+                          // Your code here after create the order
+                          return orderId;
+                        });
+                    }}
+                    onApprove={(data, actions) => {
+                      confirmOrder();
+                      return actions.order!.capture().then(function (details) {
+                        alert("Transaction completed");
+                      });
+                    }}
+                  />
+                </PayPalScriptProvider>
+              </div>
+            </div>
+          ) : (
+            <div className="mb-4">
+              <p className="text-center text-gray-500">
+                {" "}
+                Please add items to card
+              </p>
+            </div>
+          )}
         </div>
       </div>
       {selected && (
@@ -142,7 +188,7 @@ const Checkout = () => {
                 Bank account: <b>412 421 5436 4563 234</b>
               </p>
               <p>
-                Sum:<b> {delivery + reduce()}$</b>
+                Sum:<b> {reduce()}$</b>
               </p>
             </div>
             <motion.button

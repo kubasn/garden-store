@@ -9,6 +9,8 @@ import Wishlist from "./components/Wishlist";
 import Orders from "./components/Orders";
 import Footer from "./components/Footer";
 import Checkout from "./components/Checkout";
+import NoMatch from "./components/NoMatch";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,10 +34,32 @@ function App() {
   const Components = (
     <Routes>
       <Route path="/createItem" element={<CreateItem />} />
-      <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="/orders" element={<Orders />} />
-      <Route path="/checkout" element={<Checkout />} />
+      <Route
+        path="/wishlist"
+        element={
+          <ProtectedRoute>
+            <Wishlist />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Main />} />
+      <Route path="*" element={<NoMatch />} />
     </Routes>
   );
 

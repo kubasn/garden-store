@@ -5,6 +5,7 @@ import {
   orderBy,
   query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
 
@@ -31,5 +32,13 @@ export const getOrders = async () => {
     query(collection(firestore, "orders"), orderBy("id", "desc"))
   );
   //latest product will be at the top
+  return items.docs.map((doc) => doc.data());
+};
+
+export const getOrdersById = async (id: string) => {
+  const items = await getDocs(
+    query(collection(firestore, "orders"), where("userId", "==", id))
+  );
+
   return items.docs.map((doc) => doc.data());
 };

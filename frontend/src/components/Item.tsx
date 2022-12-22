@@ -74,7 +74,7 @@ const Item: React.FC<ItemProps> = ({
   };
 
   return (
-    <div className="w-[80%] h-62 md:h-48 mx-auto mb-4  md:w-[200px]  md:min-w-[200px]   shadow-md bg-white hover:bg-stone-200 hover:shadow-xl rounded-md relative ">
+    <div className="w-[80%] h-62 md:h-48  mb-4  md:w-[200px]  md:min-w-[200px]   shadow-md bg-white hover:bg-stone-200 hover:shadow-xl rounded-md relative ">
       <div className="w-full flex flex-col items-center justify-center gap-y-1 md:gap-y-2 ">
         <img src={imageUrl} alt="item" className=" h-40 md:h-24 " />
         <div className="w-full px-1  ">
