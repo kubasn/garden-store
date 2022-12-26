@@ -78,8 +78,8 @@ const Item: React.FC<ItemProps> = ({
       <div className="w-full flex flex-col items-center justify-center gap-y-1 md:gap-y-2 ">
         <img src={imageUrl} alt="item" className=" h-40 md:h-24 " />
         <div className="w-full px-1  ">
-          <div className="flex text-xl items-center md:items-end w-full flex-col md:gap-y-2">
-            <p className="text-normal font-bold text-right  text-stone-600 px-2">
+          <div className="flex text-xl items-center w-full flex-col md:gap-y-2">
+            <p className="text-normal font-semibold  text-center  text-stone-600 px-2">
               {title}
             </p>
           </div>

@@ -27,8 +27,8 @@ const Items = forwardRef((data: any, itemsRef: any) => {
       {items && items.length > 0 ? (
         items.map((item: itemProps) => <Item {...item} />)
       ) : (
-        <div className="bg-rose-200 py-3 px-2 w-1/2 mx-auto rounded-md shadow-lg ">
-          <h1 className="text-rose-700 font-bold text-center">
+        <div className="bg-gray-200 py-3 px-2 w-1/2 mx-auto rounded-md shadow-lg ">
+          <h1 className="text-gray-700 font-bold text-center">
             Items not found!{" "}
           </h1>
         </div>
