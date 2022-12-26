@@ -13,6 +13,7 @@
 - CSS 
 - Tailwind
 - Firebase
+- Framer Motion
 - PayPal JS SDK
 
 ## Screenshots
