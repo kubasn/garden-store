@@ -5,6 +5,7 @@ import { IoMdPricetags } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import { actionType } from "../state/actionType";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 interface ItemProps {
   id: number;
@@ -25,7 +26,9 @@ const Item: React.FC<ItemProps> = ({
 }) => {
   const dispatch = useDispatch();
   const cart = useTypedSelector((state) => state.cart);
+  const user = useTypedSelector((state) => state.user);
   const [items, setItems] = useState<any>([]);
+  const [whishlist, setWhishlist] = useState<boolean>(false);
   let newItems = JSON.parse(JSON.stringify(cart.items));
 
   const addToCart = () => {
@@ -44,6 +47,54 @@ const Item: React.FC<ItemProps> = ({
   useEffect(() => {
     addToCart();
   }, [items]);
+
+  const addToWishlist = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    setWhishlist(!whishlist);
+  };
+
+  useEffect(() => {
+    let local = JSON.parse(localStorage.getItem("wishlist") as string);
+    if (whishlist == true) {
+      let wishItem = {
+        id,
+        imageUrl,
+        title,
+        price,
+      };
+      let listToSave;
+      //if there is not item with the same id
+      if (
+        local !== null &&
+        !local.wishItems.some((item: any) => item.id == id)
+      ) {
+        listToSave = {
+          userId: user.uid,
+          wishItems: [...local.wishItems, wishItem],
+        };
+      } else {
+        listToSave = {
+          userId: user.uid,
+          wishItems: [wishItem],
+        };
+      }
+      localStorage.setItem("wishlist", JSON.stringify(listToSave));
+    } else {
+      if (
+        local !== null &&
+        local.wishItems.some((item: any) => item.id == id)
+      ) {
+        const updatedArray = local.wishItems.filter(
+          (item: any) => item.id !== id
+        );
+        let listToSave = {
+          userId: user.uid,
+          wishItems: updatedArray,
+        };
+        localStorage.setItem("wishlist", JSON.stringify(listToSave));
+      }
+    }
+  }, [whishlist]);
 
   const addItem = () => {
     let flag = 0;
@@ -74,11 +125,11 @@ const Item: React.FC<ItemProps> = ({
   };
 
   return (
-    <div className="w-[80%] h-62 md:h-48  mb-4  md:w-[200px]  md:min-w-[200px]   shadow-md bg-white hover:bg-stone-200 hover:shadow-xl rounded-md relative ">
+    <div className="w-[80%] h-62 md:h-48  mb-7  md:w-[200px]  md:min-w-[200px] group hover:rounded-b-none    shadow-md bg-white hover:bg-stone-200 hover:shadow-xl rounded-md relative ">
       <div className="w-full flex flex-col items-center justify-center gap-y-1 md:gap-y-2 ">
         <img src={imageUrl} alt="item" className=" h-40 md:h-24 " />
         <div className="w-full px-1  ">
-          <div className="flex text-xl items-center w-full flex-col md:gap-y-2">
+          <div className="flex text-xl  w-full flex-col md:gap-y-2">
             <p className="text-normal font-semibold  text-center  text-stone-600 px-2">
               {title}
             </p>
@@ -90,10 +141,24 @@ const Item: React.FC<ItemProps> = ({
         className="hidden md:block absolute top-2 right-2"
       >
         <button
-          onClick={addItem}
-          className="bg-stone-700 hover:bg-stone-900  hover:shadow-xl p-3 text-white rounded-full"
+          onClick={addToWishlist}
+          className="bg-stone-700 hover:bg-stone-900  hover:shadow-xl p-2 text-white rounded-full"
         >
-          <FaShoppingBasket />
+          {whishlist ? <AiFillHeart /> : <AiOutlineHeart />}
+        </button>
+      </motion.div>
+      <motion.div
+        whileTap={{ scale: 0.8 }}
+        className="absolute bottom-[0rem] z-[-10] w-full h-6 group-hover:z-10   group-hover:block transition-all group-hover:bottom-[-1.4rem]  duration-[500ms]"
+      >
+        <button
+          onClick={addItem}
+          className=" bg-stone-700 hover:bg-stone-900  hover:shadow-xl h-6 w-full text-white rounded-b-md "
+        >
+          <div className="flex justify-center gap-2">
+            <FaShoppingBasket className="relative top-1" />
+            <p className=" ">Add to cart</p>
+          </div>
         </button>
       </motion.div>
 

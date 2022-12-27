@@ -45,7 +45,6 @@ const CartItem: React.FC<CartItemProps> = ({
         imageUrl,
         title,
         price,
-        qty,
       };
       let listToSave;
       //if there is not item with the same id
@@ -53,7 +52,6 @@ const CartItem: React.FC<CartItemProps> = ({
         local !== null &&
         !local.wishItems.some((item: any) => item.id == id)
       ) {
-        console.log(...local.wishItems);
         listToSave = {
           userId: user.uid,
           wishItems: [...local.wishItems, wishItem],
@@ -70,7 +68,6 @@ const CartItem: React.FC<CartItemProps> = ({
         local !== null &&
         local.wishItems.some((item: any) => item.id == id)
       ) {
-        console.log("rll");
         const updatedArray = local.wishItems.filter(
           (item: any) => item.id !== id
         );

@@ -11,13 +11,13 @@ import Footer from "./components/Footer";
 import Checkout from "./components/Checkout";
 import NoMatch from "./components/NoMatch";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   const dispatch = useDispatch();
 
   const fetchData = async () => {
     await getItems().then((data) => {
-      console.log(data);
       dispatch({
         type: actionType.SET_ITEMS,
         payload: {
@@ -34,6 +34,7 @@ function App() {
   const Components = (
     <Routes>
       <Route path="/createItem" element={<CreateItem />} />
+      <Route path="aboutUs" element={<AboutUs />} />
       <Route
         path="/wishlist"
         element={

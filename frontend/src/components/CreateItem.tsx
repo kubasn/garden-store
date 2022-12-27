@@ -39,11 +39,9 @@ const CreateItem = () => {
     category: "",
     image: "",
   });
-  console.log(item);
 
   const fetchData = async () => {
     await getItems().then((data) => {
-      console.log(data);
       dispatch({
         type: actionType.SET_ITEMS,
         payload: data,
@@ -56,7 +54,6 @@ const CreateItem = () => {
     type: string
   ) => {
     setItem({ ...item, [type]: e.target.value });
-    console.log(item);
   };
 
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +68,6 @@ const CreateItem = () => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       },
       (error) => {
-        console.log(error);
         setMsg("Error while uploading, try again!");
         setFields(true);
         setAlert("danger");
@@ -85,7 +81,6 @@ const CreateItem = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setItem({ ...item, image: downloadURL });
-          console.log("ello");
           setLoading(false);
           setFields(true);
           setMsg("Image uploaded");
@@ -124,7 +119,6 @@ const CreateItem = () => {
         !item.image ||
         !item.price
       ) {
-        console.log(item);
         setFields(true);
         setMsg("Fields cannot be empty");
         setAlert("danger");

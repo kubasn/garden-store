@@ -24,7 +24,6 @@ const Header: React.FC = () => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const dispatch = useDispatch();
-  console.log(user);
   //to fix !!!
   const logout = () => {
     setShowMenu(false);
@@ -37,7 +36,6 @@ const Header: React.FC = () => {
   };
 
   const showCart = () => {
-    console.log({ ...cart, show: !cart.show });
     dispatch({
       type: actionType.SET_CART_SHOW,
       payload: { ...cart, show: !cart.show },
@@ -55,7 +53,6 @@ const Header: React.FC = () => {
       const {
         user: { refreshToken, providerData },
       } = await signInWithPopup(auth, provider);
-      console.log(providerData);
       dispatch({
         type: actionType.SET_USER,
         payload: { user: providerData[0] },
@@ -94,9 +91,11 @@ const Header: React.FC = () => {
                 Home
               </li>
             </Link>
-            <li className="text-lg cursor-pointer hover:text-gray-900 ease-in-out transition-all">
-              About us
-            </li>
+            <Link to="/aboutUs">
+              <li className="text-lg cursor-pointer hover:text-gray-900 ease-in-out transition-all">
+                About us
+              </li>
+            </Link>
           </motion.ul>
           <div className="relative flex items-center">
             <FiShoppingCart

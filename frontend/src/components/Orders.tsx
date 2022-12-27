@@ -18,11 +18,9 @@ const Orders = () => {
     (async () => {
       newOrders = await getOrdersById(user.uid);
       if (newOrders && newOrders.length > 0) setOrders(newOrders);
-      console.log(newOrders);
     })();
   }, []);
 
-  console.log(orders);
   return (
     <div className="h-full min-h-[calc(100vh-22rem)]">
       <div>

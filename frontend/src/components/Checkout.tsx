@@ -57,7 +57,6 @@ const Checkout = () => {
       subtotal: reduce(),
       orderItems: JSON.stringify(orderItems),
     };
-    console.log(orderDetails);
 
     try {
       localStorage.removeItem("cart");
