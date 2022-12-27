@@ -1,4 +1,8 @@
 import React from "react";
+import { AiOutlineMail } from "react-icons/ai";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { FiMapPin } from "react-icons/fi";
+import garden from "../images/garden.png";
 
 const stores = [
   {
@@ -24,7 +28,7 @@ const stores = [
 const AboutUs = () => {
   return (
     <div className="h-full min-h-[calc(100vh-22rem)]">
-      <div>
+      <div className="">
         <div className="flex flex-col  items-center capitalize">
           <h1 className="text-stone-700 text-2xl font-semibold">About us</h1>
           <div className="bg-stone-500 h-[2px] w-4/5 md:w-[200px] "></div>
@@ -53,13 +57,24 @@ const AboutUs = () => {
           <h2 className="text-stone-700 text-xl font-semibold">Our stores</h2>
           <div className="h-[2px] w-4/5 md:w-[200px] bg-stone-500 "></div>
         </div>
-        <div className="flex justify-around mt-6 ">
+        <div className="flex flex-col items-center md:flex-row md:justify-around mt-6 ">
           {stores.map((store) => (
-            <div>
-              <p>{store.name}</p>
-              <p>{store.location}</p>
-              <p>{store.email}</p>
-              <p>{store.tel}</p>
+            <div className="flex flex-col gap-3 w-[300px] ml-14 md:ml-24">
+              <p className="font-semibold">{store.name}</p>
+              <div className="ml-4">
+                <p className="flex gap-2">
+                  <FiMapPin className="relative top-[2px]" />
+                  {store.location}
+                </p>
+                <p className="flex gap-2">
+                  <AiOutlineMail className="relative top-[4px]" />
+                  {store.email}
+                </p>
+                <p className="flex gap-2">
+                  <BsFillTelephoneFill className="relative top-[2px]" />
+                  {store.tel}
+                </p>
+              </div>
             </div>
           ))}
         </div>

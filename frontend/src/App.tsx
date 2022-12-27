@@ -12,6 +12,7 @@ import Checkout from "./components/Checkout";
 import NoMatch from "./components/NoMatch";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AboutUs from "./components/AboutUs";
+import Newsletter from "./components/Newsletter";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,6 +70,7 @@ function App() {
       <div className=" w-screen h-auto flex flex-col bg-gray-100">
         <Header />
         <main className="mt-36 px-8 py-4 w-full">{Components}</main>
+        <Newsletter />
         <Footer />
       </div>
     </AnimatePresence>

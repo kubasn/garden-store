@@ -1,12 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import Delivery from "../images/delivery.png";
 import Home from "./Home";
 import { motion } from "framer-motion";
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 import Items from "./Items";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import Menu from "./Menu";
-import Cart from "./Cart";
 
 const Main = () => {
   const newItems = useTypedSelector((state) => state.items);
@@ -57,6 +55,7 @@ const Main = () => {
       <section className="w-full my-6 ">
         <Menu />
       </section>
+
       {/* {cart.show && <Cart />} */}
     </div>
   );
