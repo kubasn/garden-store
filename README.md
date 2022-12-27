@@ -27,3 +27,15 @@ https://gardenstore-7ffba.web.app/
 - upgrade UI design
 
 ## Preview
+
+## Main page
+
+<img src="./img/1.png" />
+
+## Cart
+
+<img src="./img/2.JPG" />
+
+## Checkout page
+
+<img src="./img/3.JPG" />
