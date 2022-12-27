@@ -3,13 +3,13 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCHrRz8okIVdr8CzPMEsq6GPoqc55UsIJw",
-  authDomain: "gardenstore-7ffba.firebaseapp.com",
-  databaseURL: "https://gardenstore-7ffba-default-rtdb.firebaseio.com",
-  projectId: "gardenstore-7ffba",
-  storageBucket: "gardenstore-7ffba.appspot.com",
-  messagingSenderId: "172938031044",
-  appId: "1:172938031044:web:87ccec2fa583e8ef8d7e91",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 //if app is not already initialized

@@ -3,6 +3,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
 import garden from "../images/garden.png";
+import { motion } from "framer-motion";
 
 const stores = [
   {
@@ -25,6 +26,18 @@ const stores = [
   },
 ];
 
+const visible = { opacity: 1, x: 0, transition: { duration: 1.0 } };
+
+const container = {
+  hidden: { opacity: 0, x: -20 },
+  visible,
+};
+
+const container1 = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.0 } },
+};
+
 const AboutUs = () => {
   return (
     <div className="h-full min-h-[calc(100vh-22rem)]">
@@ -34,7 +47,12 @@ const AboutUs = () => {
           <div className="bg-stone-500 h-[2px] w-4/5 md:w-[200px] "></div>
         </div>
 
-        <p className="w-4/5 md:w-1/2 text-center mx-auto mt-4">
+        <motion.p
+          initial="hidden"
+          animate="visible"
+          variants={container}
+          className="w-4/5 md:w-1/2 text-center mx-auto mt-4"
+        >
           Welcome to our garden store! We are a family-owned business with a
           passion for all things green. Our team has a combined experience of
           over 20 years in the gardening industry, and we are dedicated to
@@ -50,7 +68,7 @@ const AboutUs = () => {
             {" "}
             We hope to see you in-store or online soon!{" "}
           </span>
-        </p>
+        </motion.p>
       </div>
       <div className="mt-8">
         <div className="flex flex-col items-center text-stone-700">
@@ -59,7 +77,12 @@ const AboutUs = () => {
         </div>
         <div className="flex flex-col items-center md:flex-row md:justify-around mt-6 ">
           {stores.map((store) => (
-            <div className="flex flex-col gap-3 w-[300px] ml-14 md:ml-24">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={container1}
+              className="flex flex-col gap-3 w-[300px] ml-14 md:ml-24"
+            >
               <p className="font-semibold">{store.name}</p>
               <div className="ml-4">
                 <p className="flex gap-2">
@@ -75,7 +98,7 @@ const AboutUs = () => {
                   {store.tel}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
