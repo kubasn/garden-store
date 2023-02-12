@@ -5,7 +5,6 @@
   "dependencies": {
     "@paypal/react-paypal-js": "^7.8.2",
     "@reduxjs/toolkit": "^1.9.0",
-    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
@@ -21,6 +20,9 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4",
+    "redux-test-utils": "^1.0.2",
     "tailwind-scrollbar": "^2.0.1",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
@@ -50,6 +52,8 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@types/react-test-renderer": "^18.0.0",
     "tailwindcss": "^3.2.3"
   }
 }
